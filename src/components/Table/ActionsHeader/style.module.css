@@ -1,0 +1,10 @@
+
+.alertWrapper {
+  margin-bottom: 1rem;
+}
+
+.warningWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
