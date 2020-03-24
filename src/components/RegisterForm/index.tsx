@@ -15,7 +15,7 @@ function RegisterForm({ visible, handleClose }: DrawerProps) {
       visible={visible}
       bodyStyle={{ paddingBottom: 80 }}
     >
-      <Form layout="vertical" className="h-100 oy-auto" hideRequiredMark>
+      <Form layout="vertical" className="h-100 oy-auto hide-scrollbar" hideRequiredMark>
         <Row gutter={8}>
           <Col span={24}>
             <Item

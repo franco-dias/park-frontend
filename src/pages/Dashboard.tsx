@@ -1,22 +1,22 @@
-import React, { useState } from 'react'
-import { Layout, Menu, Button} from 'antd'
+import React, { Suspense, lazy, useState } from 'react'
+import { Layout, Menu } from 'antd'
 import {
   UserOutlined,
   BookOutlined,
   LaptopOutlined,
   UsergroupDeleteOutlined,
   SnippetsOutlined,
-  PlusOutlined
 } from '@ant-design/icons'
-import { data } from './mock'
+import { HashLink as Link } from 'react-router-hash-link';
 
-import Table from '../components/Table'
-import Filters from '../components/Filters'
-import RegisterForm from '../components/RegisterForm'
+import { Route, Switch, useLocation } from 'react-router-dom';
 
 function Dashboard() {
-  const [drawerVisible, setDrawerVisible] = useState(false)
-  
+
+  const StudentPage = lazy(() => import('./StudentPage'))
+  const TeacherPage = lazy(() => import('./TeacherPage'))
+  const location = useLocation()
+
   const {
     Header, Content, Sider,
   } = Layout
@@ -31,55 +31,51 @@ function Dashboard() {
           <Sider className="site-layout-background grow grow-ul">
             <Menu
               mode="inline"
-              defaultSelectedKeys={['1']}
+              defaultSelectedKeys={[location.pathname]}
               className="grow"
             >
-              <Menu.Item key="1">
-                <UserOutlined />
-              Alunos
+              <Menu.Item key="/alunos">
+                <Link to="/alunos">
+                  <UserOutlined />
+                  <span>
+                    Alunos
+                  </span>
+                </Link>
               </Menu.Item>
-              <Menu.Item key="2">
-                <LaptopOutlined />
-              Professores
+              <Menu.Item key="/professores">
+                <Link to="/professores">
+                  <LaptopOutlined />
+                  <span>
+                    Professores
+                  </span>
+                </Link>
               </Menu.Item>
               <Menu.Item key="3">
                 <UsergroupDeleteOutlined />
-              Turmas
+                <span>
+                  Turmas
+                </span>
               </Menu.Item>
               <Menu.Item key="4">
                 <BookOutlined />
-              Livros
+                <span>
+                  Livros
+                </span>
               </Menu.Item>
               <Menu.Item key="5">
                 <SnippetsOutlined />
-              Lições
+                <span>
+                  Lições
+                </span>
               </Menu.Item>
             </Menu>
           </Sider>
-          <Content style={{ padding: '24px', flexGrow: 1 }}>
-            <div className="flex items-center justify-between title-wrapper">
-              <span className="title">
-                Alunos
-              </span>
-              <Button
-                type="primary"
-                icon={<PlusOutlined />}
-                onClick={() => setDrawerVisible(true)}
-                shape="round"
-              >
-                Criar novo
-              </Button>
-            </div>
-            <div className="content-wrapper">
-              <Filters />
-              <Table
-                data={data}
-                tableType="student"
-                handleDelete={(selectedRows) => { console.log(selectedRows) }}
-              />
-            </div>
-          </Content>
-          <RegisterForm visible={drawerVisible} handleClose={() => setDrawerVisible(false)} />
+            <Suspense fallback={<div>Loading...</div>}>
+              <Switch>
+                <Route path="/alunos" component={StudentPage}/>
+                <Route path="/professores" component={TeacherPage}/>
+              </Switch>
+            </Suspense>
         </Layout>
       </Content>
     </Layout>
