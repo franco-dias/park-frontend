@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { Button, Layout, Spin } from 'antd'
 import {
   PlusOutlined,
-
 } from '@ant-design/icons'
 
 import Filters from '../components/Filters'
@@ -10,6 +9,24 @@ import Table from '../components/Table'
 import RegisterForm from '../components/RegisterForm'
 
 import { data } from './mock'
+
+import store from '../store'
+
+const unsubscribe = store.subscribe(() => console.log(store.getState()))
+
+// Dispatch some actions
+store.dispatch({
+  type: 'LOGIN_USER',
+  userData: {
+    token: 'api token here',
+    name: 'Gabriel',
+    email: 'gabrielfdg10@gmail.com'
+  }
+})
+
+store.dispatch({ type: 'LOGOUT_USER' })
+
+unsubscribe()
 
 
 function StudentPage() {
