@@ -28,5 +28,5 @@ export const studentHeaders = [
     title: 'Endereço',
     dataIndex: 'address',
     key: 'address',
-  },
+  }
 ]

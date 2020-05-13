@@ -2,15 +2,11 @@ import React, { useState } from 'react'
 import { Button, Layout } from 'antd'
 import {
   PlusOutlined,
-
 } from '@ant-design/icons'
 
 import Filters from '../components/Filters'
 import Table from '../components/Table'
 import RegisterForm from '../components/RegisterForm'
-
-import { data } from './mock'
-
 
 function TeacherPage() {
   const [drawerVisible, setDrawerVisible] = useState(false)
@@ -37,7 +33,8 @@ function TeacherPage() {
       <div className="content-wrapper">
         <Filters />
         <Table
-          data={data}
+          data={[]}
+          loading={false}  
           tableType="student"
           handleDelete={(selectedRows) => { console.log(selectedRows) }}
         />

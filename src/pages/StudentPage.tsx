@@ -7,9 +7,8 @@ import {
 import Filters from '../components/Filters'
 import Table from '../components/Table'
 import RegisterForm from '../components/RegisterForm'
-
-import { data } from './mock'
-
+import * as studentApi from '../api/student'
+import studentAdapter from '../utils/studentAdapter'
 import store from '../store'
 
 const unsubscribe = store.subscribe(() => console.log(store.getState()))
@@ -31,10 +30,21 @@ unsubscribe()
 
 function StudentPage() {
   const [drawerVisible, setDrawerVisible] = useState(false)
+  const [studentList, setStudentList] = useState<any>([])
   const [loading, setLoading] = useState(false)
   const {
     Content,
   } = Layout
+
+  useEffect(() => {
+    async function getStudents() {
+      const students = await studentApi.get()
+      setStudentList(studentAdapter(students))
+      setLoading(false)
+    }
+    setLoading(true)
+    getStudents()
+  }, [])
 
   return (
     <>
@@ -52,26 +62,15 @@ function StudentPage() {
             Criar novo
           </Button>
         </div>
-        {
-          loading && (
-            <div className="loader-wrapper grow">
-              <Spin size="large" />
-            </div>
-          )
-        }
-
-        {
-          !loading && (
-            <div className="content-wrapper grow">
-              <Filters />
-              <Table
-                data={data}
-                tableType="student"
-                handleDelete={(selectedRows) => { console.log(selectedRows) }}
-              />
-            </div>
-          )
-        }
+        <div className="content-wrapper grow">
+          <Filters />
+          <Table
+            data={studentList}
+            loading={loading}
+            tableType="student"
+            handleDelete={(selectedRows) => { console.log(selectedRows) }}
+          />
+        </div>
       </Content>
       <RegisterForm visible={drawerVisible} handleClose={() => setDrawerVisible(false)} />
     </>   

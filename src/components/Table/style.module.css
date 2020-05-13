@@ -1,0 +1,9 @@
+.actionColumn svg {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.actionColumn svg:first-child {
+  margin-right: 16px;
+}
